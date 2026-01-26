@@ -3,21 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Astronopedia</title>
+    <title>ASTRONARY | Astronomy Reference</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
-    <h1 class="sitename">Astronary</h1>
-    <p class="description">
-      An academically grounded yet accessible astronomy reference website,
-      <br />
-      structured like a dictionary, that provides clear definitions, in-depth
-      <br />
-      descriptions, and carefully curated photos and videos to inspire curiosity
-      <br />
-      and deepen understanding of the universe. 🌌🔭
-    </p>
-    <button type="button" class="login">log in</button>
-    <button type="button" class="signup">free sign up</button>
+    <div class="stars"></div>
+    <div class="nebula"></div>
+
+    <header class="navbar">
+      <div class="logo">ASTRONARY</div>
+
+      <nav class="nav-links">
+        <a href="#">Dictionary</a>
+        <a href="#">Media</a>
+        <a href="#">Research</a>
+        <a href="#">About</a>
+      </nav>
+
+      <div class="auth-buttons">
+        <button class="btn ghost">Log In</button>
+        <button class="btn primary">Sign Up</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>
+          Explore the Universe,<br />
+          One Definition at a Time
+        </h1>
+
+        <p>
+          A modern astronomy dictionary dedicated to planets, galaxies, stars,
+          and cosmic phenomena — enhanced with visuals and scientific clarity.
+        </p>
+
+        <button class="btn primary large">Start Exploring</button>
+      </div>
+    </section>
+
+    <section class="dictionary">
+      <h2>Featured Astronomical Terms</h2>
+
+      <div class="card-grid">
+        <article class="card">
+          <img
+            src="https://i.pinimg.com/1200x/42/08/ee/4208eeaf921803b4e754ec276f01af55.jpg"
+            alt="The Orion Nebula"
+            class="card-image"
+            loading="lazy"
+          />
+          <h3>Nebula</h3>
+          <span class="meta">Interstellar Medium</span>
+          <p>
+            A vast cloud of gas and dust in space, often acting as stellar
+            nurseries or the remains of exploded stars.
+          </p>
+        </article>
+
+        <article class="card">
+          <img
+            src="https://i.pinimg.com/1200x/4b/bf/22/4bbf2255ef0084ff0dad1a5d4161faa6.jpg"
+            alt="Kepler-186f Exoplanet"
+            class="card-image"
+            loading="lazy"
+          />
+          <h3>Kepler-186f</h3>
+          <span class="meta">Exoplanetary Science</span>
+          <p>
+            Kepler-186f is the first Earth-size exoplanet discovered within the
+            habitable zone of another star, located roughly 500 light-years
+            away.
+          </p>
+        </article>
+
+        <article class="card">
+          <img
+            src="https://i.pinimg.com/1200x/6d/a6/43/6da64326bbd71d4552a2226b58259661.jpg"
+            alt="Black Hole Accretion Disk"
+            class="card-image"
+            loading="lazy"
+          />
+          <h3>Black Hole</h3>
+          <span class="meta">Relativistic Astrophysics</span>
+          <p>
+            A region of spacetime where gravity is so intense that nothing — not
+            even light — can escape its gravitational pull.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="media">
+      <div class="media-content">
+        <h2>Curated Visual Knowledge</h2>
+        <p>
+          Every definition is paired with telescope imagery, simulations, and
+          research-backed visual material to deepen understanding.
+        </p>
+        <button class="btn ghost">Browse Media Library</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        © 2026 ASTRONARY • Astronomy for Learners & Researchers | Aleann Venice
+        A. Achacoso
+      </p>
+    </footer>
   </body>
 </html>

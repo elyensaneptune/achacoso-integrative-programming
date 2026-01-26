@@ -1,38 +1,280 @@
-.sitename {
-  background: linear-gradient(to bottom, #021f4b, #4c3b71, #115268);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: justify;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.description {
-  text-align: justify;
+
+body {
+  font-family: "Inter", sans-serif;
+  color: #e6e9f0;
+  background: radial-gradient(circle at top, #0b0f2a, #05060a);
+  overflow-x: hidden;
 }
-.login {
-  background: transparent;
-  padding: 2px 30px;
-  font-size: 12px;
-  font-weight: lighter;
-  border-radius: 4px;
+
+.stars,
+.nebula {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+.stars {
+  background: url("https://www.transparenttextures.com/patterns/stardust.png");
+  opacity: 0.15;
+  animation: drift 120s linear infinite;
+}
+
+.nebula {
+  background:
+    radial-gradient(
+      circle at 30% 40%,
+      rgba(108, 124, 255, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(255, 170, 120, 0.08),
+      transparent 65%
+    );
+  animation: pulseNebula 20s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes pulseNebula {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 64px;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.logo {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.nav-links a {
+  margin: 0 16px;
+  color: #cfd6ff;
+  text-decoration: none;
   position: relative;
-  border: 2px;
-  cursor: pointer;
-
-  background-image: linear-gradient(#ffffff)
-    linear-gradient(to bottom, #021f4b, #4c3b71, #115268);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
-.login:hover {
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #6c7cff;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid #6c7cff;
+  background: transparent;
+  color: #cfd6ff;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(123, 47, 247, 0.4);
+  box-shadow: 0 0 18px rgba(108, 124, 255, 0.6);
+}
+
+.btn.primary {
+  background: #6c7cff;
+  color: #05060a;
+}
+
+.btn.primary:hover {
+  background: #8592ff;
+}
+
+.btn.large {
+  padding: 14px 30px;
+  font-size: 1rem;
+  animation: pulseGlow 3s infinite;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(108, 124, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(108, 124, 255, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(108, 124, 255, 0.4);
+  }
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 64px;
+  position: relative;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url("https://i.pinimg.com/736x/2d/0c/36/2d0c360c63f2b2dba702f7eedc8c7dc3.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.hero h1 {
+  font-family: "Orbitron", sans-serif;
+  font-size: 3rem;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  line-height: 1.8;
+  margin-bottom: 36px;
+  color: #d6dcff;
+  font-size: 1.15rem;
+}
+
+.dictionary {
+  padding: 100px 64px;
+}
+
+.dictionary h2 {
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 48px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.card {
+  background: rgba(12, 18, 40, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 28px;
+  border: 1px solid rgba(108, 124, 255, 0.25);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(108, 124, 255, 0.25);
+}
+
+.card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  filter: brightness(0.9) contrast(1.1);
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+}
+
+.card:hover .card-image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.15);
+}
+
+.card h3 {
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 6px;
+}
+
+.meta {
+  display: block;
+  font-size: 0.8rem;
+  color: #8f9cff;
+  margin-bottom: 14px;
+}
+
+.card p {
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.media {
+  padding: 100px 64px;
+  background: linear-gradient(to right, #05060a, #0a0f2a);
+}
+
+.media-content {
+  max-width: 620px;
+}
+
+.media h2 {
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 16px;
+}
+
+.media p {
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+footer {
+  padding: 28px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #7f8cff;
+  background: #05060a;
 }
