@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ASTRONARY | Astronomy Reference</title>
 
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
 
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
+    <!-- Background Effects -->
     <div class="stars"></div>
     <div class="nebula"></div>
 
+    <!-- Navbar -->
     <header class="navbar">
       <div class="logo">ASTRONARY</div>
 
@@ -28,28 +32,29 @@
       </nav>
 
       <div class="auth-buttons">
-        <button class="btn ghost">Log In</button>
-        <button class="btn primary">Sign Up</button>
+        <!-- Updated to link directly to login.html and signup.html -->
+        <a href="login.html" class="btn ghost">Log In</a>
+        <a href="signup.html" class="btn primary">Sign Up</a>
       </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
         <h1>
           Explore the Universe,<br />
           One Definition at a Time
         </h1>
-
         <p>
           A modern astronomy dictionary dedicated to planets, galaxies, stars,
           and cosmic phenomena — enhanced with visuals and scientific clarity.
         </p>
-
-        <button class="btn primary large">Start Exploring</button>
+        <a href="#dictionary" class="btn primary large">Start Exploring</a>
       </div>
     </section>
 
-    <section class="dictionary">
+    <!-- Featured Dictionary Section -->
+    <section id="dictionary" class="dictionary">
       <h2>Featured Astronomical Terms</h2>
 
       <div class="card-grid">
@@ -101,6 +106,7 @@
       </div>
     </section>
 
+    <!-- Media Section -->
     <section class="media">
       <div class="media-content">
         <h2>Curated Visual Knowledge</h2>
@@ -108,10 +114,11 @@
           Every definition is paired with telescope imagery, simulations, and
           research-backed visual material to deepen understanding.
         </p>
-        <button class="btn ghost">Browse Media Library</button>
+        <a href="#" class="btn ghost">Browse Media Library</a>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer>
       <p>
         © 2026 ASTRONARY • Astronomy for Learners & Researchers | Aleann Venice
