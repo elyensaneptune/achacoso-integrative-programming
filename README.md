@@ -1,8 +1,8 @@
 ﻿# ACTVITY 1 January 21,2026
 
-🔹 Activity name: Landing Page Project<br/>
+🔹 Activity name: Landing Page Project
 
-🔹 Description Explain: This landing page presents a modern astronomy dictionary covering planets, stars, galaxies, and cosmic phenomena with scientific clarity and visual support. It is designed for astronomy learners and researchers who need accurate, easy-to-understand explanations. Astronomy knowledge is often scattered, overly technical, and difficult to visualize, making learning and research slower and more confusing. This dictionary solves that problem by offering a single, reliable, and visually enhanced reference that simplifies complex concepts and supports deeper understanding.<br/>
+🔹 Description Explain: This landing page presents a modern astronomy dictionary covering planets, stars, galaxies, and cosmic phenomena with scientific clarity and visual support. It is designed for astronomy learners and researchers who need accurate, easy-to-understand explanations. Astronomy knowledge is often scattered, overly technical, and difficult to visualize, making learning and research slower and more confusing. This dictionary solves that problem by offering a single, reliable, and visually enhanced reference that simplifies complex concepts and supports deeper understanding.
 
 🔹 Technologies Used Example:
 
@@ -22,6 +22,7 @@
 # ACTIVITY 2
 
 🔹 Activity name: Login and Signup page linking
+
 🔹 Description Explain: This landing page presents a modern astronomy dictionary covering planets, stars, galaxies, and cosmic phenomena with scientific clarity and visual support. It is designed for astronomy learners and researchers who need accurate, easy-to-understand explanations. Astronomy knowledge is often scattered, overly technical, and difficult to visualize, making learning and research slower and more confusing. This dictionary solves that problem by offering a single, reliable, and visually enhanced reference that simplifies complex concepts and supports deeper understanding.
 
 🔹 Technologies Used Example:
@@ -42,5 +43,6 @@
 🔹 Learning Reflection: This activity helped me learn how to connect multiple HTML pages and keep the same style using CSS. I also learned how good page structure and navigation make a website easier to use. AI help made it easier to understand links and basic layout for login and signup pages.
 
 # Activity 3
+
 
 
