@@ -421,3 +421,33 @@ footer {
   width: 100%;
   margin-top: 32px;
 }
+
+.settings-input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(108, 124, 255, 0.4);
+  border-radius: 6px;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.settings-input::placeholder {
+  color: #9aa6ff;
+}
+
+.settings-label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: #aab3ff;
+}
+
+.settings-checkbox {
+  font-size: 0.9rem;
+  color: #cfd6ff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
