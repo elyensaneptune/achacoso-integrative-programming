@@ -707,3 +707,38 @@ table td button {
     padding: 12px 20px;
   }
 }
+
+.add-user-section {
+  margin: 40px 0;
+}
+
+.add-user-section h2 {
+  margin-bottom: 15px;
+}
+
+.add-user-section form input,
+.add-user-section form select,
+.add-user-section form button {
+  margin: 5px 0;
+  padding: 8px;
+  width: 250px;
+  display: block;
+}
+
+#usersTable {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 700px;
+  margin-top: 20px;
+}
+
+#usersTable th,
+#usersTable td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+#usersTable th {
+  background-color: #f4f4f4;
+}

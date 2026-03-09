@@ -55,3 +55,29 @@ form.addEventListener("submit", function (e) {
       email.toLowerCase() === "admin@email.com" ? "admin.html" : "profile.html";
   }
 });
+
+const addUserForm = document.getElementById("addUserForm");
+const tableBody = document.querySelector("#usersTable tbody");
+
+addUserForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const role = document.getElementById("role").value;
+
+  if (name === "" || email === "" || role === "") {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${name}</td>
+    <td>${email}</td>
+    <td>${role}</td>
+  `;
+  tableBody.appendChild(row);
+
+  addUserForm.reset();
+});
