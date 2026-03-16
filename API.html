@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ASTRONARY | Astronomy Reference</title>
+
+    <title>ASTRONARY | API Search</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap"
@@ -21,7 +22,7 @@
       <div class="logo">ASTRONARY</div>
 
       <nav class="nav-links">
-        <a href="#">Dictionary</a>
+        <a href="index.html">Dictionary</a>
         <a href="#">Media</a>
         <a href="#">Research</a>
         <a href="API.html">API</a>
@@ -29,26 +30,31 @@
       </nav>
 
       <div class="auth-buttons">
-        <!-- Updated to link directly to login.html and signup.html -->
         <a href="login.html" class="btn ghost">Log In</a>
         <a href="signup.html" class="btn primary">Sign Up</a>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="hero-content">
-        <h1>
-          Explore the Universe,<br />
-          One Definition at a Time
-        </h1>
-        <p>
-          A modern astronomy dictionary dedicated to planets, galaxies, stars,
-          and cosmic phenomena — enhanced with visuals and scientific clarity.
-        </p>
-        <a href="#dictionary" class="btn primary large">Start Exploring</a>
-      </div>
-    </section>
+    <section class="dictionary">
+      <h2>Search the Universe</h2>
 
+      <p style="margin-bottom: 20px; color: #cfd6ff">
+        Search planets, galaxies, stars, or space missions.
+      </p>
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Example: Mars, Nebula, Galaxy"
+        style="padding: 12px; width: 260px; margin-right: 10px"
+      />
+
+      <button class="btn primary" onclick="searchSpace()">Search</button>
+
+      <p id="errorMessage" style="color: #ff7b7b; margin-top: 15px"></p>
+
+      <div id="results" class="card-grid" style="margin-top: 40px"></div>
+    </section>
     <section id="dictionary" class="dictionary">
       <h2>Featured Astronomical Terms</h2>
 
@@ -101,22 +107,73 @@
       </div>
     </section>
 
-    <section class="media">
-      <div class="media-content">
-        <h2>Curated Visual Knowledge</h2>
-        <p>
-          Every definition is paired with telescope imagery, simulations, and
-          research-backed visual material to deepen understanding.
-        </p>
-        <a href="#" class="btn ghost">Browse Media Library</a>
-      </div>
-    </section>
-
     <footer>
-      <p>
-        © 2026 ASTRONARY • Astronomy for Learners & Researchers | Aleann Venice
-        A. Achacoso
-      </p>
+      <p>© 2026 ASTRONARY • Astronomy for Learners & Researchers</p>
     </footer>
+
+    <script>
+      async function searchSpace() {
+        const query = document.getElementById("searchInput").value;
+        const results = document.getElementById("results");
+        const error = document.getElementById("errorMessage");
+
+        results.innerHTML = "";
+        error.innerHTML = "";
+
+        /* ERROR: empty search */
+
+        if (query.trim() === "") {
+          error.innerHTML = "Please enter a search term.";
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `https://images-api.nasa.gov/search?q=${query}&media_type=image`,
+          );
+
+          if (!response.ok) {
+            throw new Error("API failed");
+          }
+
+          const data = await response.json();
+          const items = data.collection.items;
+
+          /* ERROR: no results */
+
+          if (items.length === 0) {
+            error.innerHTML = "No results found.";
+            return;
+          }
+
+          /* DISPLAY DATA */
+
+          items.slice(0, 6).forEach((item) => {
+            const title = item.data[0].title;
+            const description = item.data[0].description;
+            const image = item.links[0].href;
+
+            const card = document.createElement("article");
+            card.className = "card";
+
+            card.innerHTML = `
+
+<img src="${image}" class="card-image">
+
+<h3>${title}</h3>
+
+<span class="meta">NASA Image Library</span>
+
+<p>${description.substring(0, 150)}...</p>
+
+`;
+
+            results.appendChild(card);
+          });
+        } catch (err) {
+          error.innerHTML = "Something went wrong while retrieving data.";
+        }
+      }
+    </script>
   </body>
 </html>
