@@ -120,56 +120,78 @@
         results.innerHTML = "";
         error.innerHTML = "";
 
-        /* ERROR: empty search */
-
         if (query.trim() === "") {
           error.innerHTML = "Please enter a search term.";
           return;
         }
 
         try {
-          const response = await fetch(
+          const nasa = await fetch(
             `https://images-api.nasa.gov/search?q=${query}&media_type=image`,
           );
 
-          if (!response.ok) {
-            throw new Error("API failed");
-          }
+          const nasaData = await nasa.json();
 
-          const data = await response.json();
-          const items = data.collection.items;
-
-          /* ERROR: no results */
-
-          if (items.length === 0) {
-            error.innerHTML = "No results found.";
-            return;
-          }
-
-          /* DISPLAY DATA */
-
-          items.slice(0, 6).forEach((item) => {
+          nasaData.collection.items.slice(0, 3).forEach((item) => {
             const title = item.data[0].title;
             const description = item.data[0].description;
-            const image = item.links[0].href;
+            const image = item.links ? item.links[0].href : "";
 
             const card = document.createElement("article");
             card.className = "card";
 
             card.innerHTML = `
-
-<img src="${image}" class="card-image">
-
-<h3>${title}</h3>
-
-<span class="meta">NASA Image Library</span>
-
-<p>${description.substring(0, 150)}...</p>
-
-`;
+      <img src="${image}" class="card-image">
+      <h3>${title}</h3>
+      <span class="meta">NASA Image Library</span>
+      <p>${description.substring(0, 150)}...</p>
+      `;
 
             results.appendChild(card);
           });
+
+          const wiki = await fetch(
+            `https://en.wikipedia.org/api/rest_v1/page/summary/${query}`,
+          );
+
+          const wikiData = await wiki.json();
+
+          if (wikiData.extract) {
+            const card = document.createElement("article");
+            card.className = "card";
+
+            card.innerHTML = `
+      <img src="${wikiData.thumbnail ? wikiData.thumbnail.source : ""}" class="card-image">
+      <h3>${wikiData.title}</h3>
+      <span class="meta">Wikipedia</span>
+      <p>${wikiData.extract.substring(0, 150)}...</p>
+      `;
+
+            results.appendChild(card);
+          }
+
+          const sites = ["space.com", "universetoday.com", "astronomy.com"];
+
+          for (const site of sites) {
+            const response = await fetch(
+              `https://api.duckduckgo.com/?q=${query}+site:${site}&format=json`,
+            );
+
+            const data = await response.json();
+
+            if (data.AbstractText) {
+              const card = document.createElement("article");
+              card.className = "card";
+
+              card.innerHTML = `
+        <h3>${query}</h3>
+        <span class="meta">${site}</span>
+        <p>${data.AbstractText.substring(0, 150)}...</p>
+        `;
+
+              results.appendChild(card);
+            }
+          }
         } catch (err) {
           error.innerHTML = "Something went wrong while retrieving data.";
         }
