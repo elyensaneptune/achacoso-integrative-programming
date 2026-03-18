@@ -742,3 +742,86 @@ table td button {
 #usersTable th {
   background-color: #f4f4f4;
 }
+
+.api-container {
+  padding: 140px 64px 80px;
+  text-align: center;
+}
+
+.api-container h1 {
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 10px;
+}
+
+.api-container p {
+  color: #cfd6ff;
+  margin-bottom: 30px;
+}
+
+.api-search-box {
+  margin-bottom: 30px;
+}
+
+.api-search-box input {
+  padding: 14px;
+  width: 260px;
+  border-radius: 6px;
+  border: 1px solid rgba(108, 124, 255, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+  color: white;
+  outline: none;
+}
+
+.api-search-box input::placeholder {
+  color: #9aa6ff;
+}
+
+.api-search-box button {
+  margin-left: 10px;
+}
+
+.api-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.api-card {
+  background: rgba(12, 18, 40, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid rgba(108, 124, 255, 0.25);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.api-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(108, 124, 255, 0.3);
+}
+
+.api-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.api-card h3 {
+  font-family: "Orbitron", sans-serif;
+  margin-bottom: 8px;
+}
+
+.api-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.api-error {
+  color: #ff6b6b;
+  margin-top: 20px;
+}

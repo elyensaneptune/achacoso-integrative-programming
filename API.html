@@ -3,14 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>ASTRONARY | API Search</title>
+    <title>ASTRONARY | Astronomy API Dictionary</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -35,167 +33,123 @@
       </div>
     </header>
 
-    <section class="dictionary">
-      <h2>Search the Universe</h2>
+    <section class="api-container">
+      <h1>Astronomy Visual Dictionary</h1>
+      <p>Search for planets, stars, galaxies, and cosmic phenomena.</p>
 
-      <p style="margin-bottom: 20px; color: #cfd6ff">
-        Search planets, galaxies, stars, or space missions.
-      </p>
-
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="Example: Mars, Nebula, Galaxy"
-        style="padding: 12px; width: 260px; margin-right: 10px"
-      />
-
-      <button class="btn primary" onclick="searchSpace()">Search</button>
-
-      <p id="errorMessage" style="color: #ff7b7b; margin-top: 15px"></p>
-
-      <div id="results" class="card-grid" style="margin-top: 40px"></div>
-    </section>
-    <section id="dictionary" class="dictionary">
-      <h2>Featured Astronomical Terms</h2>
-
-      <div class="card-grid">
-        <article class="card">
-          <img
-            src="https://i.pinimg.com/1200x/42/08/ee/4208eeaf921803b4e754ec276f01af55.jpg"
-            alt="The Orion Nebula"
-            class="card-image"
-            loading="lazy"
-          />
-          <h3>Nebula</h3>
-          <span class="meta">Interstellar Medium</span>
-          <p>
-            A vast cloud of gas and dust in space, often acting as stellar
-            nurseries or the remains of exploded stars.
-          </p>
-        </article>
-
-        <article class="card">
-          <img
-            src="https://i.pinimg.com/1200x/4b/bf/22/4bbf2255ef0084ff0dad1a5d4161faa6.jpg"
-            alt="Kepler-186f Exoplanet"
-            class="card-image"
-            loading="lazy"
-          />
-          <h3>Kepler-186f</h3>
-          <span class="meta">Exoplanetary Science</span>
-          <p>
-            Kepler-186f is the first Earth-size exoplanet discovered within the
-            habitable zone of another star, located roughly 500 light-years
-            away.
-          </p>
-        </article>
-
-        <article class="card">
-          <img
-            src="https://i.pinimg.com/1200x/6d/a6/43/6da64326bbd71d4552a2226b58259661.jpg"
-            alt="Black Hole Accretion Disk"
-            class="card-image"
-            loading="lazy"
-          />
-          <h3>Black Hole</h3>
-          <span class="meta">Relativistic Astrophysics</span>
-          <p>
-            A region of spacetime where gravity is so intense that nothing — not
-            even light — can escape its gravitational pull.
-          </p>
-        </article>
+      <div class="api-search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search astronomical term (e.g. Black Hole, Mars, Nebula)"
+        />
+        <button class="btn primary" onclick="searchNASA()">Search</button>
       </div>
-    </section>
 
-    <footer>
-      <p>© 2026 ASTRONARY • Astronomy for Learners & Researchers</p>
-    </footer>
+      <div id="errorMessage" class="api-error"></div>
+
+      <div id="results" class="api-results"></div>
+    </section>
 
     <script>
-      async function searchSpace() {
-        const query = document.getElementById("searchInput").value;
-        const results = document.getElementById("results");
-        const error = document.getElementById("errorMessage");
+      async function fetchWikipedia(term) {
+        try {
+          const res = await fetch(
+            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(term)}`,
+          );
 
-        results.innerHTML = "";
-        error.innerHTML = "";
+          if (!res.ok) return null;
 
-        if (query.trim() === "") {
-          error.innerHTML = "Please enter a search term.";
+          const data = await res.json();
+
+          if (!data.thumbnail || !data.thumbnail.source) return null;
+
+          return {
+            title: data.title,
+            description: data.extract,
+            image: data.thumbnail.source,
+          };
+        } catch {
+          return null;
+        }
+      }
+
+      async function searchNASA() {
+        const query = document.getElementById("searchInput").value.trim();
+        const resultsDiv = document.getElementById("results");
+        const errorDiv = document.getElementById("errorMessage");
+
+        resultsDiv.innerHTML = "";
+        errorDiv.textContent = "";
+
+        if (!query) {
+          errorDiv.textContent = "Please enter a search term.";
           return;
         }
 
         try {
-          const nasa = await fetch(
-            `https://images-api.nasa.gov/search?q=${query}&media_type=image`,
-          );
+          const [wikiData, nasaRes] = await Promise.all([
+            fetchWikipedia(query),
+            fetch(
+              `https://images-api.nasa.gov/search?q=${query}&media_type=image`,
+            ),
+          ]);
 
-          const nasaData = await nasa.json();
+          const nasaData = await nasaRes.json();
 
-          nasaData.collection.items.slice(0, 3).forEach((item) => {
-            const title = item.data[0].title;
-            const description = item.data[0].description;
-            const image = item.links ? item.links[0].href : "";
-
-            const card = document.createElement("article");
-            card.className = "card";
-
-            card.innerHTML = `
-      <img src="${image}" class="card-image">
-      <h3>${title}</h3>
-      <span class="meta">NASA Image Library</span>
-      <p>${description.substring(0, 150)}...</p>
-      `;
-
-            results.appendChild(card);
+          const nasaItems = nasaData.collection.items.filter((item) => {
+            return item.links && item.links[0] && item.links[0].href;
           });
 
-          const wiki = await fetch(
-            `https://en.wikipedia.org/api/rest_v1/page/summary/${query}`,
-          );
+          if (!wikiData && nasaItems.length === 0) {
+            errorDiv.textContent = "No image results found.";
+            return;
+          }
 
-          const wikiData = await wiki.json();
-
-          if (wikiData.extract) {
-            const card = document.createElement("article");
-            card.className = "card";
+          if (wikiData) {
+            const card = document.createElement("div");
+            card.className = "api-card";
 
             card.innerHTML = `
-      <img src="${wikiData.thumbnail ? wikiData.thumbnail.source : ""}" class="card-image">
-      <h3>${wikiData.title}</h3>
-      <span class="meta">Wikipedia</span>
-      <p>${wikiData.extract.substring(0, 150)}...</p>
-      `;
-
-            results.appendChild(card);
-          }
-
-          const sites = ["space.com", "universetoday.com", "astronomy.com"];
-
-          for (const site of sites) {
-            const response = await fetch(
-              `https://api.duckduckgo.com/?q=${query}+site:${site}&format=json`,
-            );
-
-            const data = await response.json();
-
-            if (data.AbstractText) {
-              const card = document.createElement("article");
-              card.className = "card";
-
-              card.innerHTML = `
-        <h3>${query}</h3>
-        <span class="meta">${site}</span>
-        <p>${data.AbstractText.substring(0, 150)}...</p>
+          <img src="${wikiData.image}">
+          <span class="meta">Wikipedia</span>
+          <h3>${wikiData.title}</h3>
+          <p>${wikiData.description.substring(0, 180)}...</p>
         `;
 
-              results.appendChild(card);
-            }
+            resultsDiv.appendChild(card);
           }
-        } catch (err) {
-          error.innerHTML = "Something went wrong while retrieving data.";
+
+          nasaItems.slice(0, 6).forEach((item) => {
+            const title = item.data[0].title || "NASA Image";
+            const description = item.data[0].description || "";
+            const image = item.links[0].href;
+
+            const card = document.createElement("div");
+            card.className = "api-card";
+
+            card.innerHTML = `
+          <img src="${image}">
+          <span class="meta">NASA</span>
+          <h3>${title}</h3>
+          <p>${description.replace(/\n/g, " ").substring(0, 140)}...</p>
+        `;
+
+            resultsDiv.appendChild(card);
+          });
+        } catch (error) {
+          errorDiv.textContent = "Failed to load data. Please try again.";
+          console.error(error);
         }
       }
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            searchNASA();
+          }
+        });
     </script>
   </body>
 </html>
