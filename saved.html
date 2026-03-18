@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASTRONARY | Astronomy Reference</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="stars"></div>
+    <div class="nebula"></div>
+
+    <header class="navbar">
+      <div class="logo">ASTRONARY</div>
+
+      <nav class="nav-links">
+        <a href="#">Dictionary</a>
+        <a href="#">Media</a>
+        <a href="#">Research</a>
+        <a href="API.html">API</a>
+        <a href="#">About</a>
+        <a href="saved.html">Saved Items</a>
+      </nav>
+
+      <div class="auth-buttons">
+        <a href="login.html" class="btn ghost">Log In</a>
+        <a href="signup.html" class="btn primary">Sign Up</a>
+      </div>
+    </header>
+
+    <section class="api-container">
+      <h1>Saved Space Items</h1>
+      <p>Your saved astronomy data collection</p>
+
+      <div id="savedContainer" class="api-results"></div>
+    </section>
+
+    <script>
+      function loadSaved() {
+        const container = document.getElementById("savedContainer");
+        let saved = JSON.parse(localStorage.getItem("savedSpaceData")) || [];
+
+        container.innerHTML = "";
+
+        if (saved.length === 0) {
+          container.innerHTML = `<p class="api-error">No saved items yet.</p>`;
+          return;
+        }
+
+        saved.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "api-card";
+
+          card.innerHTML = `
+          <img src="${item.image}">
+          <span class="meta">${item.source}</span>
+          <h3>${item.title}</h3>
+          <p>${item.description.substring(0, 140)}...</p>
+          <button class="delete-btn" onclick="deleteItem(${index})">Delete</button>
+        `;
+
+          container.appendChild(card);
+        });
+      }
+
+      function deleteItem(index) {
+        let saved = JSON.parse(localStorage.getItem("savedSpaceData")) || [];
+
+        saved.splice(index, 1);
+        localStorage.setItem("savedSpaceData", JSON.stringify(saved));
+
+        loadSaved();
+      }
+
+      loadSaved();
+    </script>
+  </body>
+</html>

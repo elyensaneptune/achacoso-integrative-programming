@@ -25,6 +25,7 @@
         <a href="#">Research</a>
         <a href="API.html">API</a>
         <a href="#">About</a>
+        <a href="saved.html">Saved Items</a>
       </nav>
 
       <div class="auth-buttons">
@@ -74,6 +75,33 @@
         }
       }
 
+      function saveItem(btn) {
+        const item = {
+          title: btn.dataset.title,
+          description: btn.dataset.description,
+          image: btn.dataset.image,
+          source: btn.dataset.source,
+        };
+
+        let saved = JSON.parse(localStorage.getItem("savedSpaceData")) || [];
+
+        const exists = saved.some((i) => i.title === item.title);
+
+        if (exists) {
+          alert("Item already saved!");
+          return;
+        }
+
+        saved.push(item);
+        localStorage.setItem("savedSpaceData", JSON.stringify(saved));
+
+        // ✅ Update button UI
+        btn.textContent = "Saved";
+        btn.classList.add("saved");
+
+        alert("Saved successfully!");
+      }
+
       async function searchNASA() {
         const query = document.getElementById("searchInput").value.trim();
         const resultsDiv = document.getElementById("results");
@@ -114,7 +142,15 @@
           <img src="${wikiData.image}">
           <span class="meta">Wikipedia</span>
           <h3>${wikiData.title}</h3>
-          <p>${wikiData.description.substring(0, 180)}...</p>
+          <p>${wikiData.description.substring(0, 140)}...</p>
+          <button 
+            data-title="${wikiData.title}"
+            data-description="${wikiData.description}"
+            data-image="${wikiData.image}"
+            data-source="Wikipedia"
+            onclick="saveItem(this)">
+            Save
+          </button>
         `;
 
             resultsDiv.appendChild(card);
@@ -128,12 +164,27 @@
             const card = document.createElement("div");
             card.className = "api-card";
 
+            function sanitizeDescription(text) {
+              const noUrls = text.replace(/https?:\/\/[^\s]+/g, "");
+              const cleanText = noUrls.replace(/<\/?[^>]+(>|$)/g, "");
+              return cleanText.trim();
+            }
+
+            const cleanDescription = sanitizeDescription(description);
             card.innerHTML = `
-          <img src="${image}">
-          <span class="meta">NASA</span>
-          <h3>${title}</h3>
-          <p>${description.replace(/\n/g, " ").substring(0, 140)}...</p>
-        `;
+  <img src="${image}">
+  <span class="meta">NASA</span>
+  <h3>${title}</h3>
+  <p>${cleanDescription.substring(0, 140)}...</p>
+  <button
+    data-title="${title}"
+    data-description="${cleanDescription}"
+    data-image="${image}"
+    data-source="NASA"
+    onclick="saveItem(this)">
+    Save
+  </button>
+`;
 
             resultsDiv.appendChild(card);
           });
